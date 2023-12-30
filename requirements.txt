@@ -1,9 +1,21 @@
-flask
-gunicorn
-flask_sqlalchemy
-datetime
-folium
-geopy
-flask_login
-website
-werkzeug
+branca==0.7.0
+certifi==2023.11.17
+charset-normalizer==3.3.2
+click @ file:///private/var/folders/c_/qfmhj66j0tn016nkx_th4hxm0000gp/T/abs_f27dk3zwrb/croot/click_1698129816363/work
+Flask @ file:///Users/ec2-user/ci_py311/flask_1678380788105/work
+Flask-Login @ file:///Users/ec2-user/ci_py311/flask-login_1678391198827/work
+Flask-SQLAlchemy @ file:///Users/ec2-user/ci_py311/flask-sqlalchemy_1678391223160/work
+folium==0.15.0
+geographiclib==2.0
+geopy==2.4.1
+greenlet @ file:///Users/ec2-user/ci_py311/greenlet_1678323340336/work
+idna==3.6
+itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
+Jinja2 @ file:///Users/ec2-user/ci_py311/jinja2_1678317138271/work
+MarkupSafe @ file:///Users/ec2-user/ci_py311/markupsafe_1678316973889/work
+numpy==1.26.2
+requests==2.31.0
+SQLAlchemy @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_2dm7nmav_d/croot/sqlalchemy_1695720908200/work
+typing_extensions @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_35a9251r5y/croot/typing_extensions_1690297487409/work
+urllib3==2.1.0
+Werkzeug @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_fegt3z60s3/croot/werkzeug_1679489762631/work
