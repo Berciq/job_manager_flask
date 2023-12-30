@@ -17,9 +17,7 @@ def login():
             email=email  # checking if user exists
         ).first()  # .first() return first occurance of given email,
         if user:
-            if check_password_hash(
-                user.password, password
-            ):  # checking if password is the same (hashed)
+            if user.password == password:
                 login_user(user, remember=True)
                 return redirect(url_for("views.jobs_list"))
             else:
@@ -75,9 +73,7 @@ def signup():
                 new_user = User(
                     firstname=first_name,
                     lastname=last_name,
-                    password=generate_password_hash(
-                        password, method="sha256"
-                    ),  # hashing password for security purposes
+                    password=password,
                     email=email,
                     company=company,
                 )
@@ -87,3 +83,27 @@ def signup():
                 return redirect(url_for("views.login"))
 
     return render_template("signup.html", user=current_user)
+
+
+"""
+        if user:
+            if check_password_hash(
+                user.password, password
+            ):  # checking if password is the same (hashed)
+                login_user(user, remember=True)
+                return redirect(url_for("views.jobs_list"))
+
+
+
+
+            else:
+                # creating new user instance
+                new_user = User(
+                    firstname=first_name,
+                    lastname=last_name,
+                    password=generate_password_hash(
+                        password, method="sha256"
+                    ),  # hashing password for security purposes
+                    email=email,
+                    company=company,
+"""
