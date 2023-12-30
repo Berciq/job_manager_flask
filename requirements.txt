@@ -3,7 +3,7 @@ gunicorn
 flask_sqlalchemy
 datetime
 folium
-geopy.geocoders
+geopy
 flask_login
 website
 werkzeug.security
