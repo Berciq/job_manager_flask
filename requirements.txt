@@ -7,4 +7,3 @@ geopy
 flask_login
 website
 werkzeug
-os
