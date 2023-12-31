@@ -66,37 +66,43 @@ def clients():
 @login_required  # doesn't allow this function unless a user is logged in
 def jobs_list():
     if request.method == "POST":
-        client = request.form.get("client")  # pass existing client
         name = request.form.get("name")
-        location = request.form.get("location")
-        job_type = request.form.get("job_type")
-        status = request.form.get("status")
-        start_time = request.form.get("start_time")
-        end_time = request.form.get("end_time")  # '2023-11-27'
-        info = request.form.get("info")
-        coords_lat = get_coords(location)[0]
-        # accessing the returned latitude from get_coords function
-        coords_lon = get_coords(location)[1]
-        # accessing the returned longitude from get_coords function
+        job = Job.query.filter_by(
+            name=name  # checking if job with given name exists
+        ).first()  # .first() return first occurance of given name of job if it exists,
+        if job:
+            flash("Job with this name already exists!", category="job_error")
+        else:
+            client = request.form.get("client")  # pass existing client
+            location = request.form.get("location")
+            job_type = request.form.get("job_type")
+            status = request.form.get("status")
+            start_time = request.form.get("start_time")
+            end_time = request.form.get("end_time")  # '2023-11-27'
+            info = request.form.get("info")
+            coords_lat = get_coords(location)[0]
+            # accessing the returned latitude from get_coords function
+            coords_lon = get_coords(location)[1]
+            # accessing the returned longitude from get_coords function
 
-        new_job = Job(
-            user=current_user.id,
-            client=client,
-            name=name,
-            location=location,
-            job_type=job_type,
-            status=status,
-            start_time=datetime.date.fromisoformat(str(start_time)),
-            end_time=datetime.date.fromisoformat(str(end_time)),
-            info=info,
-            lat=coords_lat,
-            lon=coords_lon,
-        )
+            new_job = Job(
+                user=current_user.id,
+                client=client,
+                name=name,
+                location=location,
+                job_type=job_type,
+                status=status,
+                start_time=datetime.date.fromisoformat(str(start_time)),
+                end_time=datetime.date.fromisoformat(str(end_time)),
+                info=info,
+                lat=coords_lat,
+                lon=coords_lon,
+            )
 
-        db.session.add(new_job)  # adding new client to database
-        db.session.commit()  # committing db changes
-        flash("Successfully added new job!", category="job_success")
-        return redirect(url_for("views.jobs_list"))
+            db.session.add(new_job)  # adding new client to database
+            db.session.commit()  # committing db changes
+            flash("Successfully added new job!", category="job_success")
+            return redirect(url_for("views.jobs_list"))
 
     return render_template("jobs_list.html", user=current_user)
 
