@@ -80,7 +80,7 @@ def signup():
                 db.session.add(new_user)  # adding new user to database
                 db.session.commit()  # committing db changes
                 flash("Account successfully created!", category="signup_success")
-                return redirect(url_for("views.login"))
+                return redirect(url_for("auth.login"))
 
     return render_template("signup.html", user=current_user)
 
