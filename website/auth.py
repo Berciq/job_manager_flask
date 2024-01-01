@@ -18,7 +18,7 @@ def login():
         ).first()  # .first() return first occurance of given email,
         if user:
             if user.password == password:
-                login_user(user, remember=True)
+                login_user(user, remember=False)
                 return redirect(url_for("views.jobs_list"))
             else:
                 flash(
