@@ -1,5 +1,6 @@
 from . import db
 from flask_login import UserMixin
+import datetime
 
 
 class User(db.Model, UserMixin):
@@ -35,6 +36,11 @@ class Job(db.Model):
     lat = db.Column(db.Float())
     lon = db.Column(db.Float())
 
+    def days_left(self):
+        time_left = self.end_time - datetime.datetime.today()
+        days_left = time_left.days
+        return days_left
+
 
 class Client(db.Model):
     user = db.Column(
@@ -50,47 +56,4 @@ class Client(db.Model):
     info = db.Column(db.String(10000))
 
     def __repr__(self):
-        return f"<{self.firstname} {self.lastname} {self.company}>"
-
-
-"""
-suggested database structure:
-Here's a simplified example of how you might structure your database:
-
-User Table:
-
-Store user information, such as user ID, username, password (hashed), email, etc.
-Clients Table:
-
-Each row in this table would be a client, associated with a specific user. You can establish a relationship between the User table and the Clients table using a foreign key that references the user ID.
-Jobs Table:
-
-Similar to the Clients table, each row represents a job associated with a specific user. Again, use a foreign key to establish a relationship with the User table.
-This way, you can use a single database to manage users, clients, and jobs. The structure might look something like this:
-
-User Table:
-
-UserID (Primary Key)
-Username
-Password
-Email
-Other user-related fields
-Clients Table:
-
-ClientID (Primary Key)
-UserID (Foreign Key referencing User.UserID)
-ClientName
-ClientDetails
-Other client-related fields
-Jobs Table:
-
-JobID (Primary Key)
-UserID (Foreign Key referencing User.UserID)
-ClientID (Foreign Key referencing Clients.ClientID)
-JobTitle
-JobDescription
-Other job-related fields
-This structure allows you to associate clients and jobs with specific users while keeping the data organized in a manageable way. The relationships between tables are crucial for maintaining data integrity.
-
-If your web app is expected to handle a large volume of data or requires advanced scalability, you might need to consider additional factors such as database indexing, partitioning, or sharding. However, for many smaller to medium-sized applications, a single database with appropriate table relationships should suffice.
-"""
+        return f"{self.company}, {self.firstname} {self.lastname}"
