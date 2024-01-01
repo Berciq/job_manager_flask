@@ -57,9 +57,51 @@ def clients():
         db.session.add(new_client)  # adding new client to database
         db.session.commit()  # committing db changes
         flash("Successfully added new client!", category="client_success")
-        return redirect(url_for("views.jobs_list"))
+        return redirect(url_for("views.clients"))
 
     return render_template("clients.html", user=current_user)
+
+
+@views.route(f"/client<int:id>", methods=["GET", "POST"])
+@login_required  # doesn't allow this function unless a user is logged in
+def client_details(id):
+    all_user_clients = Client.query.filter_by(user=current_user.id)
+    current_client = all_user_clients.filter_by(id=id).first()
+    if request.method == "POST":
+        new_firstname = request.form.get("firstname")
+        new_lastname = request.form.get("lastname")
+        new_company = request.form.get("company")
+        new_adress = request.form.get("adress")
+        new_phone = request.form.get("phone")
+        new_email = request.form.get("email")
+        new_info = request.form.get("info")
+
+        current_client.firstname = new_firstname
+        current_client.lastname = new_lastname
+        current_client.company = new_company
+        current_client.adress = new_adress
+        current_client.phone = new_phone
+        current_client.email = new_email
+        current_client.info = new_info
+
+        db.session.commit()
+        flash("Client data updated!", category="client_success")
+        return redirect(url_for("views.clients"))
+
+    return render_template(
+        "client_details.html", user=current_user, current_client=current_client
+    )
+
+
+@views.route(f"/delete_client<int:id>", methods=["GET", "POST"])
+@login_required  # doesn't allow this function unless a user is logged in
+def delete_client(id):
+    all_user_clients = Client.query.filter_by(user=current_user.id)
+    current_client = all_user_clients.filter_by(id=id).first()
+    db.session.delete(current_client)
+    db.session.commit()
+    flash("Client was successfully deleted!", category="client_success")
+    return redirect(url_for("views.clients"))
 
 
 @views.route("/jobs_list", methods=["GET", "POST"])

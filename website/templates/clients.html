@@ -40,7 +40,7 @@
           <tr>
             <th scope="row">{{ client.id }}</th>
             <td>
-              <strong>{{ client.firstname }} {{ client.lastname }}</strong>
+              <strong><a href="/client{{ client.id }}">{{ client.firstname }} {{ client.lastname }}</a></strong>
             </td>
             <td>{{ client.company }}</td>
             <td>{{ client.adress }}</td>
