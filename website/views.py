@@ -210,6 +210,35 @@ def current_job(id):
     )
 
 
+@views.route("/job/<filter>", methods=["GET", "POST"])
+@login_required  # doesn't allow this function unless a user is logged in
+def filter_jobs(filter):
+    if filter == "name":
+        jobs_name_order = Job.query.order_by(and_(Job.name), (Job.id))
+        return render_template(
+            "jobs_list_sorted.html", user=current_user, jobs_name_order=jobs_name_order
+        )
+    else:
+        return redirect(url_for("views.jobs_list"))
+
+    """
+    jobs_type_order = None
+    jobs_status_order = None
+    jobs_endtime_order = None
+
+    return redirect(url_for("views.jobs_list"))
+
+    return render_template(
+        "job_details.html",
+        user=current_user,
+        current_job=current_job,
+        current_start_time=current_start_time,
+        current_end_time=current_end_time,
+        current_job_client=current_job_client,
+    )
+    """
+
+
 @views.route("/jobs_map", methods=["GET", "POST"])
 @login_required  # doesn't allow this function unless a user is logged in
 def jobs_map():
