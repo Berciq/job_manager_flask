@@ -32,6 +32,13 @@ def create_app():
     from .models import User, Client, Job  # loading models before creating database
 
     with app.app_context():
+        # FIXME: In a production application, you would also need to deal
+        #  with the need for making changes to your models as new features are
+        #  added to the app. Therefore, you would need to use something like:
+        #  https://pypi.org/project/alembic/
+        #  (Consider what would happen if you wanted to change the "info"
+        #  field to "information" in an app already being used,
+        #  with multiple users, clients, and jobs.)
         db.create_all()
 
     login_manager = LoginManager()

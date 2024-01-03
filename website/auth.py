@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-from . import db
+from . import db, config
 
 auth = Blueprint("auth", __name__)
 
@@ -17,6 +17,11 @@ def login():
             email=email  # checking if user exists
         ).first()  # .first() return first occurance of given email,
         if user:
+            # FIXME: in a production system, it is a security best practice
+            #  that this should be a hash to avoid plain-text passwords
+            #  leaking when a database breach occurs - for instance.
+            #  For more info on that see:
+            #  https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
             if user.password == password:
                 login_user(user, remember=False)
                 return redirect(url_for("views.jobs_list"))
@@ -57,16 +62,21 @@ def signup():
         if user:  # just some input checking stuff
             flash("User with this email already exists!", category="signup_error")
         else:
-            if len(first_name) < 3:
+            if len(first_name) < config.MIN_NAME_LENGTH:
                 flash("Provide correct first name", category="signup_error")
-            elif len(password) < 6:
+            elif len(password) < config.MIN_PASSWORD_LENGTH:
                 flash(
                     "Your password must be at least 6 characters long",
                     category="signup_error",
                 )
             elif password != password_conf:
                 flash("Confirm your password", category="signup_error")
-            elif len(email) < 4 or "@" not in email:
+            # TODO: In a production system, the email validation would likely need to
+            #  be improved a little bit, to catch more incorrect values, like: "joe@@example.com".
+            #  Here you could rely on existing solutions like https://pypi.org/project/email-validator/
+            #  Also, it is best practice not to "hardcode" constants but
+            #  store them in a configuration file.
+            elif len(email) < config.MIN_EMAIL_LENGTH or "@" not in email:
                 flash("Provide correct email", category="signup_error")
             else:
                 # creating new user instance

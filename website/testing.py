@@ -21,6 +21,12 @@ cords3 = get_coords(job3)
 cords4 = get_coords(job4)
 cords5 = get_coords(job5)
 
+# FIXME: this kind of test naturally fits in what is called "unit testing".
+#  It is best practice that each project includes a number of small tests
+#  to ensure basic functionality works as expected. In Python, these "unit tests"
+#  are usually included in separate files and structured to work with a testing library
+#  such as unittest or pytest.
+#  For more info see: https://realpython.com/python-testing/
 print(cords1, cords2, cords3, cords4, cords5)
 (49.99188045, 18.964938948006292)
 (49.82095215, 19.036872725057876)
