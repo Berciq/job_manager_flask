@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -11,7 +13,11 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "secret_key_26101997"
+    # Avoid storing secret values in code at all - even for development -
+    # since it can result in production systems configured with values
+    # that were meant only for testing or to sensitive information leaking.
+    # Use environment variables instead (see https://direnv.net/)
+    app.config["SECRET_KEY"] = os.environ['FLASK_SECRET_KEY']
     app.config[
         "SQLALCHEMY_DATABASE_URI"
     ] = f"sqlite:///{DB_NAME}"  # telling Flask where the database is located
